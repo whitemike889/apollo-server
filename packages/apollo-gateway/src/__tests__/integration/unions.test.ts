@@ -60,16 +60,25 @@ it('handles multiple union type conditions that share a response name (media)', 
       Fetch(service: "contentService") {
         {
           content {
-            __typename
-            ... on Audio {
-              media {
-                url
-              }
+            ...__QueryPlanFragment_2__
+          }
+        }
+        fragment __QueryPlanFragment_0__ on AudioURL {
+          url
+        }
+        fragment __QueryPlanFragment_1__ on VideoAspectRatio {
+          aspectRatio
+        }
+        fragment __QueryPlanFragment_2__ on Content {
+          __typename
+          ... on Audio {
+            media {
+              ...__QueryPlanFragment_0__
             }
-            ... on Video {
-              media {
-                aspectRatio
-              }
+          }
+          ... on Video {
+            media {
+              ...__QueryPlanFragment_1__
             }
           }
         }

@@ -162,15 +162,24 @@ it('works fetches data correctly with complex / nested @key fields', async () =>
         Fetch(service: "review") {
           {
             reviews {
-              author {
-                __typename
-                id
-                organization {
-                  id
-                  __typename
-                  id
-                }
-              }
+              ...__QueryPlanFragment_2__
+            }
+          }
+          fragment __QueryPlanFragment_0__ on Organization {
+            __typename
+            id
+          }
+          fragment __QueryPlanFragment_1__ on User {
+            __typename
+            id
+            organization {
+              id
+              ...__QueryPlanFragment_0__
+            }
+          }
+          fragment __QueryPlanFragment_2__ on Review {
+            author {
+              ...__QueryPlanFragment_1__
             }
           }
         },

@@ -32,16 +32,19 @@ describe('custom executable directives', () => {
     expect(errors).toBeUndefined();
     expect(queryPlan).toCallService('reviews');
     expect(queryPlan).toMatchInlineSnapshot(`
-        QueryPlan {
-          Fetch(service: "reviews") {
-            {
-              topReviews {
-                body @stream
-              }
+      QueryPlan {
+        Fetch(service: "reviews") {
+          {
+            topReviews {
+              ...__QueryPlanFragment_0__
             }
-          },
-        }
-      `);
+          }
+          fragment __QueryPlanFragment_0__ on Review {
+            body @stream
+          }
+        },
+      }
+    `);
   });
 
   it('successfully passes directives and their variables along in requests to underlying services', async () => {
@@ -67,37 +70,43 @@ describe('custom executable directives', () => {
     expect(queryPlan).toCallService('reviews');
     expect(queryPlan).toCallService('accounts');
     expect(queryPlan).toMatchInlineSnapshot(`
-        QueryPlan {
-          Sequence {
-            Fetch(service: "reviews") {
+      QueryPlan {
+        Sequence {
+          Fetch(service: "reviews") {
+            {
+              topReviews {
+                ...__QueryPlanFragment_2__
+              }
+            }
+            fragment __QueryPlanFragment_1__ on User {
+              __typename
+              id
+            }
+            fragment __QueryPlanFragment_2__ on Review {
+              body @stream
+              author @transform(from: "JSON") {
+                ...__QueryPlanFragment_1__
+              }
+            }
+          },
+          Flatten(path: "topReviews.@.author") {
+            Fetch(service: "accounts") {
               {
-                topReviews {
-                  body @stream
-                  author @transform(from: "JSON") {
-                    __typename
-                    id
-                  }
+                ... on User {
+                  __typename
+                  id
+                }
+              } =>
+              {
+                ... on User {
+                  name @stream
                 }
               }
             },
-            Flatten(path: "topReviews.@.author") {
-              Fetch(service: "accounts") {
-                {
-                  ... on User {
-                    __typename
-                    id
-                  }
-                } =>
-                {
-                  ... on User {
-                    name @stream
-                  }
-                }
-              },
-            },
           },
-        }
-      `);
+        },
+      }
+    `);
   });
 
   it("returns validation errors when directives aren't present across all services", async () => {

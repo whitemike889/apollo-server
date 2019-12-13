@@ -140,7 +140,7 @@ describe('executeQueryPlan', () => {
       );
       expect(response).toHaveProperty(
         'errors.0.extensions.query',
-        '{\n  me {\n    name\n  }\n}',
+        '{\n  me {\n    ...__QueryPlanFragment_1__\n  }\n}\n\nfragment __QueryPlanFragment_1__ on User {\n  name\n}\n',
       );
       expect(response).toHaveProperty('errors.0.extensions.variables', {});
     });

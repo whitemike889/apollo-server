@@ -71,8 +71,24 @@ function printNode(
         ) +
         config.spacingOuter +
         indentation +
+        (node.internalFragments.size > 0
+          ? '  ' + Array.from(node.internalFragments)
+              .map(fragment =>
+                printer(
+                  fragment,
+                  config,
+                  indentationNext,
+                  depth,
+                  refs,
+                  printer,
+                ),
+              )
+              .join(`\n${indentationNext}`) +
+            config.spacingOuter +
+            indentation
+          : '') +
         '}';
-      break;
+        break;
     case 'Flatten':
       result += `Flatten(path: "${node.path.join('.')}")`;
       break;

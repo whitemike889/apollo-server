@@ -228,23 +228,32 @@ it('multiple root mutations with correct service order', async () => {
         Fetch(service: "reviews") {
           {
             reviewProduct(upc: $upc, body: $body) {
-              __typename
-              ... on Furniture {
-                upc
-              }
+              ...__QueryPlanFragment_8__
             }
             updateReview(review: $updatedReview) {
-              id
-              body
+              ...__QueryPlanFragment_9__
             }
+          }
+          fragment __QueryPlanFragment_8__ on Product {
+            __typename
+            ... on Furniture {
+              upc
+            }
+          }
+          fragment __QueryPlanFragment_9__ on Review {
+            id
+            body
           }
         },
         Fetch(service: "accounts") {
           {
             login(username: $username, password: $password) {
-              __typename
-              id
+              ...__QueryPlanFragment_12__
             }
+          }
+          fragment __QueryPlanFragment_12__ on User {
+            __typename
+            id
           }
         },
         Flatten(path: "login") {
@@ -258,17 +267,23 @@ it('multiple root mutations with correct service order', async () => {
             {
               ... on User {
                 reviews {
-                  product {
-                    __typename
-                    ... on Book {
-                      __typename
-                      isbn
-                    }
-                    ... on Furniture {
-                      upc
-                    }
-                  }
+                  ...__QueryPlanFragment_11__
                 }
+              }
+            }
+            fragment __QueryPlanFragment_10__ on Product {
+              __typename
+              ... on Book {
+                __typename
+                isbn
+              }
+              ... on Furniture {
+                upc
+              }
+            }
+            fragment __QueryPlanFragment_11__ on Review {
+              product {
+                ...__QueryPlanFragment_10__
               }
             }
           },
