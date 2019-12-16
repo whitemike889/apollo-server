@@ -96,17 +96,11 @@ it('fetches data correctly list type @key fields', async () => {
         Fetch(service: "review") {
           {
             reviews {
-              ...__QueryPlanFragment_1__
-            }
-          }
-          fragment __QueryPlanFragment_0__ on User {
-            __typename
-            id
-          }
-          fragment __QueryPlanFragment_1__ on Review {
-            body
-            author {
-              ...__QueryPlanFragment_0__
+              body
+              author {
+                __typename
+                id
+              }
             }
           }
         },

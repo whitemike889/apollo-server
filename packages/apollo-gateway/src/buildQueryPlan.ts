@@ -30,6 +30,7 @@ import {
   VisitFn,
   ASTNode,
   VariableNode,
+  isInterfaceType,
 } from 'graphql';
 import {
   Field,
@@ -519,18 +520,31 @@ function completeField(
 
     parentGroup.otherDependentGroups.push(...subGroup.dependentGroups);
 
-    const { definition, selection } = getInternalFragment(subGroup.fields, returnType, context);
+    let definition: FragmentDefinitionNode;
+    let selectionSet: SelectionSetNode;
 
+    if (isInterfaceType(returnType)) {
+      ({ definition, selectionSet } = getInternalFragment(
+        subGroup.fields,
+        returnType,
+        context,
+      ));
+      parentGroup.internalFragments.add(definition);
+    } else {
+      selectionSet = selectionSetFromFieldSet(subGroup.fields, returnType);
+    }
+
+    // "Hoist" internalFragments of the subGroup into the parentGroup so all
+    // fragments can be included in the final request for the root FetchGroup
     subGroup.internalFragments.forEach(fragment => {
       parentGroup.internalFragments.add(fragment);
     });
-    parentGroup.internalFragments.add(definition);
 
     return {
       scope,
       fieldNode: {
         ...fieldNode,
-        selectionSet: selection,
+        selectionSet,
       },
       fieldDef,
     };
@@ -580,7 +594,7 @@ function getInternalFragment(
     context.internalFragments[key] = {
       name,
       definition,
-      selection: fragmentSelection,
+      selectionSet: fragmentSelection,
     };
   }
 
@@ -780,7 +794,7 @@ export class QueryPlanningContext {
     [key: string]: {
       name: string;
       definition: FragmentDefinitionNode;
-      selection: SelectionSetNode;
+      selectionSet: SelectionSetNode;
     };
   } = {};
 

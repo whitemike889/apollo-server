@@ -174,17 +174,11 @@ it('fetches data correctly with multiple @key fields', async () => {
         Fetch(service: "reviews") {
           {
             reviews {
-              ...__QueryPlanFragment_1__
-            }
-          }
-          fragment __QueryPlanFragment_0__ on User {
-            __typename
-            id
-          }
-          fragment __QueryPlanFragment_1__ on Review {
-            body
-            author {
-              ...__QueryPlanFragment_0__
+              body
+              author {
+                __typename
+                id
+              }
             }
           }
         },
@@ -288,13 +282,10 @@ it('fetches keys as needed to reduce round trip queries', async () => {
         Fetch(service: "users") {
           {
             users {
-              ...__QueryPlanFragment_3__
+              __typename
+              ssn
+              id
             }
-          }
-          fragment __QueryPlanFragment_3__ on User {
-            __typename
-            ssn
-            id
           }
         },
         Parallel {
@@ -324,12 +315,9 @@ it('fetches keys as needed to reduce round trip queries', async () => {
               {
                 ... on User {
                   reviews {
-                    ...__QueryPlanFragment_2__
+                    body
                   }
                 }
-              }
-              fragment __QueryPlanFragment_2__ on Review {
-                body
               }
             },
           },

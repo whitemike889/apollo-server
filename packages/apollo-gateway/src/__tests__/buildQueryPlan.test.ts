@@ -70,11 +70,8 @@ describe('buildQueryPlan', () => {
         Fetch(service: "accounts") {
           {
             me {
-              ...__QueryPlanFragment_0__
+              name
             }
-          }
-          fragment __QueryPlanFragment_0__ on User {
-            name
           }
         },
       }
@@ -101,21 +98,18 @@ describe('buildQueryPlan', () => {
           Fetch(service: "accounts") {
             {
               me {
-                ...__QueryPlanFragment_1__
+                name
               }
-            }
-            fragment __QueryPlanFragment_1__ on User {
-              name
             }
           },
           Sequence {
             Fetch(service: "product") {
               {
                 topProducts {
-                  ...__QueryPlanFragment_2__
+                  ...__QueryPlanFragment_0__
                 }
               }
-              fragment __QueryPlanFragment_2__ on Product {
+              fragment __QueryPlanFragment_0__ on Product {
                 __typename
                 ... on Book {
                   __typename
@@ -187,13 +181,13 @@ describe('buildQueryPlan', () => {
           Fetch(service: "product") {
             {
               topProducts {
-                ...__QueryPlanFragment_3__
+                ...__QueryPlanFragment_1__
               }
               product(upc: "1") {
-                ...__QueryPlanFragment_3__
+                ...__QueryPlanFragment_1__
               }
             }
-            fragment __QueryPlanFragment_3__ on Product {
+            fragment __QueryPlanFragment_1__ on Product {
               __typename
               ... on Book {
                 __typename
@@ -306,21 +300,12 @@ describe('buildQueryPlan', () => {
         Fetch(service: "reviews") {
           {
             topReviews {
-              ...__QueryPlanFragment_6__
-            }
-          }
-          fragment __QueryPlanFragment_4__ on Review {
-            body
-          }
-          fragment __QueryPlanFragment_5__ on User {
-            reviews {
-              ...__QueryPlanFragment_4__
-            }
-          }
-          fragment __QueryPlanFragment_6__ on Review {
-            body
-            author {
-              ...__QueryPlanFragment_5__
+              body
+              author {
+                reviews {
+                  body
+                }
+              }
             }
           }
         },
@@ -350,22 +335,13 @@ describe('buildQueryPlan', () => {
         Fetch(service: "reviews") {
           {
             topReviews {
-              ...__QueryPlanFragment_9__
-            }
-          }
-          fragment __QueryPlanFragment_7__ on Review {
-            body
-          }
-          fragment __QueryPlanFragment_8__ on User {
-            id
-            reviews {
-              ...__QueryPlanFragment_7__
-            }
-          }
-          fragment __QueryPlanFragment_9__ on Review {
-            body
-            author {
-              ...__QueryPlanFragment_8__
+              body
+              author {
+                id
+                reviews {
+                  body
+                }
+              }
             }
           }
         },
@@ -394,13 +370,10 @@ describe('buildQueryPlan', () => {
             Fetch(service: "accounts") {
               {
                 me {
-                  ...__QueryPlanFragment_11__
+                  name
+                  __typename
+                  id
                 }
-              }
-              fragment __QueryPlanFragment_11__ on User {
-                name
-                __typename
-                id
               }
             },
             Flatten(path: "me") {
@@ -414,12 +387,9 @@ describe('buildQueryPlan', () => {
                 {
                   ... on User {
                     reviews {
-                      ...__QueryPlanFragment_10__
+                      body
                     }
                   }
-                }
-                fragment __QueryPlanFragment_10__ on Review {
-                  body
                 }
               },
             },
@@ -448,12 +418,9 @@ describe('buildQueryPlan', () => {
               Fetch(service: "accounts") {
                 {
                   me {
-                    ...__QueryPlanFragment_13__
+                    __typename
+                    id
                   }
-                }
-                fragment __QueryPlanFragment_13__ on User {
-                  __typename
-                  id
                 }
               },
               Flatten(path: "me") {
@@ -467,12 +434,9 @@ describe('buildQueryPlan', () => {
                   {
                     ... on User {
                       reviews {
-                        ...__QueryPlanFragment_12__
+                        body
                       }
                     }
-                  }
-                  fragment __QueryPlanFragment_12__ on Review {
-                    body
                   }
                 },
               },
@@ -503,12 +467,9 @@ describe('buildQueryPlan', () => {
             Fetch(service: "accounts") {
               {
                 me {
-                  ...__QueryPlanFragment_15__
+                  __typename
+                  id
                 }
-              }
-              fragment __QueryPlanFragment_15__ on User {
-                __typename
-                id
               }
             },
             Flatten(path: "me") {
@@ -522,13 +483,10 @@ describe('buildQueryPlan', () => {
                 {
                   ... on User {
                     reviews {
-                      ...__QueryPlanFragment_14__
+                      body
                     }
                     numberOfReviews
                   }
-                }
-                fragment __QueryPlanFragment_14__ on Review {
-                  body
                 }
               },
             },
@@ -559,17 +517,11 @@ describe('buildQueryPlan', () => {
             Fetch(service: "reviews") {
               {
                 topReviews {
-                  ...__QueryPlanFragment_17__
-                }
-              }
-              fragment __QueryPlanFragment_16__ on User {
-                __typename
-                id
-              }
-              fragment __QueryPlanFragment_17__ on Review {
-                body
-                author {
-                  ...__QueryPlanFragment_16__
+                  body
+                  author {
+                    __typename
+                    id
+                  }
                 }
               }
             },
@@ -611,13 +563,10 @@ describe('buildQueryPlan', () => {
               Fetch(service: "product") {
                 {
                   topCars {
-                    ...__QueryPlanFragment_18__
+                    __typename
+                    id
+                    price
                   }
-                }
-                fragment __QueryPlanFragment_18__ on Car {
-                  __typename
-                  id
-                  price
                 }
               },
               Flatten(path: "topCars.@") {
@@ -662,16 +611,10 @@ describe('buildQueryPlan', () => {
               Fetch(service: "reviews") {
                 {
                   topReviews {
-                    ...__QueryPlanFragment_20__
-                  }
-                }
-                fragment __QueryPlanFragment_19__ on User {
-                  __typename
-                  id
-                }
-                fragment __QueryPlanFragment_20__ on Review {
-                  author {
-                    ...__QueryPlanFragment_19__
+                    author {
+                      __typename
+                      id
+                    }
                   }
                 }
               },
@@ -716,16 +659,10 @@ describe('buildQueryPlan', () => {
             Fetch(service: "reviews") {
               {
                 topReviews {
-                  ...__QueryPlanFragment_22__
-                }
-              }
-              fragment __QueryPlanFragment_21__ on User {
-                __typename
-                id
-              }
-              fragment __QueryPlanFragment_22__ on Review {
-                author {
-                  ...__QueryPlanFragment_21__
+                  author {
+                    __typename
+                    id
+                  }
                 }
               }
             },
@@ -770,10 +707,10 @@ describe('buildQueryPlan', () => {
           Fetch(service: "product") {
             {
               topProducts {
-                ...__QueryPlanFragment_23__
+                ...__QueryPlanFragment_2__
               }
             }
-            fragment __QueryPlanFragment_23__ on Product {
+            fragment __QueryPlanFragment_2__ on Product {
               __typename
               ... on Book {
                 price
@@ -811,10 +748,10 @@ describe('buildQueryPlan', () => {
           Fetch(service: "product") {
             {
               topProducts {
-                ...__QueryPlanFragment_25__
+                ...__QueryPlanFragment_3__
               }
             }
-            fragment __QueryPlanFragment_25__ on Product {
+            fragment __QueryPlanFragment_3__ on Product {
               __typename
               ... on Book {
                 price
@@ -843,17 +780,14 @@ describe('buildQueryPlan', () => {
               {
                 ... on Book {
                   reviews {
-                    ...__QueryPlanFragment_24__
+                    body
                   }
                 }
                 ... on Furniture {
                   reviews {
-                    ...__QueryPlanFragment_24__
+                    body
                   }
                 }
-              }
-              fragment __QueryPlanFragment_24__ on Review {
-                body
               }
             },
           },
@@ -884,14 +818,11 @@ describe('buildQueryPlan', () => {
           Fetch(service: "books") {
             {
               books {
-                ...__QueryPlanFragment_26__
+                __typename
+                isbn
+                title
+                year
               }
-            }
-            fragment __QueryPlanFragment_26__ on Book {
-              __typename
-              isbn
-              title
-              year
             }
           },
           Flatten(path: "books.@") {
@@ -934,22 +865,19 @@ describe('buildQueryPlan', () => {
         Fetch(service: "product") {
           {
             product(upc: "") {
-              ...__QueryPlanFragment_28__
+              ...__QueryPlanFragment_4__
             }
           }
-          fragment __QueryPlanFragment_27__ on ProductDetailsBook {
-            country
-          }
-          fragment __QueryPlanFragment_28__ on Product {
+          fragment __QueryPlanFragment_4__ on Product {
             __typename
             ... on Book {
               details {
-                ...__QueryPlanFragment_27__
+                country
               }
             }
             ... on Furniture {
               details {
-                ...__QueryPlanFragment_27__
+                country
               }
             }
           }

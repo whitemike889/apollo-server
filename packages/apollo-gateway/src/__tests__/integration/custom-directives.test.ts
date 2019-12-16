@@ -36,11 +36,8 @@ describe('custom executable directives', () => {
         Fetch(service: "reviews") {
           {
             topReviews {
-              ...__QueryPlanFragment_0__
+              body @stream
             }
-          }
-          fragment __QueryPlanFragment_0__ on Review {
-            body @stream
           }
         },
       }
@@ -75,17 +72,11 @@ describe('custom executable directives', () => {
           Fetch(service: "reviews") {
             {
               topReviews {
-                ...__QueryPlanFragment_2__
-              }
-            }
-            fragment __QueryPlanFragment_1__ on User {
-              __typename
-              id
-            }
-            fragment __QueryPlanFragment_2__ on Review {
-              body @stream
-              author @transform(from: "JSON") {
-                ...__QueryPlanFragment_1__
+                body @stream
+                author @transform(from: "JSON") {
+                  __typename
+                  id
+                }
               }
             }
           },

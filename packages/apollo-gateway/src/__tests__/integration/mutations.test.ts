@@ -228,32 +228,26 @@ it('multiple root mutations with correct service order', async () => {
         Fetch(service: "reviews") {
           {
             reviewProduct(upc: $upc, body: $body) {
-              ...__QueryPlanFragment_8__
+              ...__QueryPlanFragment_4__
             }
             updateReview(review: $updatedReview) {
-              ...__QueryPlanFragment_9__
+              id
+              body
             }
           }
-          fragment __QueryPlanFragment_8__ on Product {
+          fragment __QueryPlanFragment_4__ on Product {
             __typename
             ... on Furniture {
               upc
             }
           }
-          fragment __QueryPlanFragment_9__ on Review {
-            id
-            body
-          }
         },
         Fetch(service: "accounts") {
           {
             login(username: $username, password: $password) {
-              ...__QueryPlanFragment_12__
+              __typename
+              id
             }
-          }
-          fragment __QueryPlanFragment_12__ on User {
-            __typename
-            id
           }
         },
         Flatten(path: "login") {
@@ -267,11 +261,13 @@ it('multiple root mutations with correct service order', async () => {
             {
               ... on User {
                 reviews {
-                  ...__QueryPlanFragment_11__
+                  product {
+                    ...__QueryPlanFragment_5__
+                  }
                 }
               }
             }
-            fragment __QueryPlanFragment_10__ on Product {
+            fragment __QueryPlanFragment_5__ on Product {
               __typename
               ... on Book {
                 __typename
@@ -279,11 +275,6 @@ it('multiple root mutations with correct service order', async () => {
               }
               ... on Furniture {
                 upc
-              }
-            }
-            fragment __QueryPlanFragment_11__ on Review {
-              product {
-                ...__QueryPlanFragment_10__
               }
             }
           },

@@ -87,12 +87,8 @@ it('correctly passes the context from ApolloServer to datasources', async () => 
     body: {
       query: `{
   me {
-    ...__QueryPlanFragment_0__
+    username
   }
-}
-
-fragment __QueryPlanFragment_0__ on User {
-  username
 }
 `,
       variables: {},

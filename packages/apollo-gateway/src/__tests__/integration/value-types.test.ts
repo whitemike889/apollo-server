@@ -63,21 +63,10 @@ describe('value types', () => {
           Fetch(service: "product") {
             {
               topProducts(first: 10) {
-                ...__QueryPlanFragment_2__
+                ...__QueryPlanFragment_0__
               }
             }
-            fragment __QueryPlanFragment_0__ on MetadataOrError {
-              __typename
-              ... on KeyValue {
-                key
-                value
-              }
-              ... on Error {
-                code
-                message
-              }
-            }
-            fragment __QueryPlanFragment_2__ on Product {
+            fragment __QueryPlanFragment_0__ on Product {
               __typename
               ... on Book {
                 upc
@@ -87,7 +76,15 @@ describe('value types', () => {
               ... on Furniture {
                 upc
                 metadata {
-                  ...__QueryPlanFragment_0__
+                  __typename
+                  ... on KeyValue {
+                    key
+                    value
+                  }
+                  ... on Error {
+                    code
+                    message
+                  }
                 }
                 __typename
               }
@@ -105,19 +102,16 @@ describe('value types', () => {
                 {
                   ... on Book {
                     metadata {
-                      ...__QueryPlanFragment_0__
+                      __typename
+                      ... on KeyValue {
+                        key
+                        value
+                      }
+                      ... on Error {
+                        code
+                        message
+                      }
                     }
-                  }
-                }
-                fragment __QueryPlanFragment_0__ on MetadataOrError {
-                  __typename
-                  ... on KeyValue {
-                    key
-                    value
-                  }
-                  ... on Error {
-                    code
-                    message
                   }
                 }
               },
@@ -137,29 +131,33 @@ describe('value types', () => {
                 {
                   ... on Book {
                     reviews {
-                      ...__QueryPlanFragment_1__
+                      metadata {
+                        __typename
+                        ... on KeyValue {
+                          key
+                          value
+                        }
+                        ... on Error {
+                          code
+                          message
+                        }
+                      }
                     }
                   }
                   ... on Furniture {
                     reviews {
-                      ...__QueryPlanFragment_1__
+                      metadata {
+                        __typename
+                        ... on KeyValue {
+                          key
+                          value
+                        }
+                        ... on Error {
+                          code
+                          message
+                        }
+                      }
                     }
-                  }
-                }
-                fragment __QueryPlanFragment_0__ on MetadataOrError {
-                  __typename
-                  ... on KeyValue {
-                    key
-                    value
-                  }
-                  ... on Error {
-                    code
-                    message
-                  }
-                }
-                fragment __QueryPlanFragment_1__ on Review {
-                  metadata {
-                    ...__QueryPlanFragment_0__
                   }
                 }
               },
@@ -336,18 +334,12 @@ describe('value types', () => {
             Fetch(service: "firstService") {
               {
                 valueType {
-                  ...__QueryPlanFragment_4__
-                }
-              }
-              fragment __QueryPlanFragment_3__ on User {
-                id
-                name
-                __typename
-              }
-              fragment __QueryPlanFragment_4__ on ValueType {
-                id
-                user {
-                  ...__QueryPlanFragment_3__
+                  id
+                  user {
+                    id
+                    name
+                    __typename
+                  }
                 }
               }
             },
@@ -371,18 +363,12 @@ describe('value types', () => {
             Fetch(service: "secondService") {
               {
                 otherValueType {
-                  ...__QueryPlanFragment_4__
-                }
-              }
-              fragment __QueryPlanFragment_3__ on User {
-                id
-                name
-                __typename
-              }
-              fragment __QueryPlanFragment_4__ on ValueType {
-                id
-                user {
-                  ...__QueryPlanFragment_3__
+                  id
+                  user {
+                    id
+                    name
+                    __typename
+                  }
                 }
               }
             },
